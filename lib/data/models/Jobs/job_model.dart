@@ -1,9 +1,12 @@
+import 'package:iynfluencer/data/models/Influencer/influencer_response_model.dart';
+
 class JobResponse {
   final String status;
   final String message;
   final JobData data;
 
-  JobResponse({required this.status, required this.message, required this.data});
+  JobResponse(
+      {required this.status, required this.message, required this.data});
 
   factory JobResponse.fromJson(Map<String, dynamic> json) {
     return JobResponse(
@@ -72,8 +75,9 @@ class Job {
   final String createdAt;
   final String updatedAt;
   final int version;
-  final List<Creator> creator;
+  final creator;
   final int bidsCount;
+  final User? user;
 
   Job({
     required this.id,
@@ -94,7 +98,31 @@ class Job {
     required this.version,
     required this.creator,
     required this.bidsCount,
+    this.user,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'category': category,
+      'budgetFrom': budgetFrom,
+      'budgetTo': budgetTo,
+      'description': description,
+      'duration': duration,
+      'id': id,
+      'creatorId': creatorId,
+      'public': public,
+      'hired': hired,
+      'suspended': suspended,
+      'jobId': jobId,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+      'version': version,
+      'bidsCount': bidsCount,
+      'creator': creator,
+      "user": user
+    };
+  }
 
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(
@@ -114,8 +142,9 @@ class Job {
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
       version: json['__v'],
-      creator: (json['creator'] as List).map((i) => Creator.fromJson(i)).toList(),
+      creator: Creator.fromJson(json['creator']),
       bidsCount: json['bidsCount'],
+      user: json['user'] != null ? User.fromJson(json['user']) : null,
     );
   }
 }
@@ -139,7 +168,6 @@ class Creator {
     );
   }
 }
-
 
 //
 //
@@ -174,5 +202,16 @@ class JobRequest {
       'responsibilities': responsibilities,
     };
   }
-}
 
+  factory JobRequest.fromJson(Map<String, dynamic> json) {
+    return JobRequest(
+      title: json['title'],
+      category: List<String>.from(json['category']),
+      budgetFrom: json['budgetFrom'],
+      budgetTo: json['budgetTo'],
+      description: json['description'],
+      duration: json['duration'],
+      responsibilities: List<String>.from(json['responsibilities']),
+    );
+  }
+}

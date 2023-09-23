@@ -1,5 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iynfluencer/presentation/influencer_drawer_item/controller/influencer_drawer_controller.dart';
+import 'package:iynfluencer/presentation/job_details_screen/job_details_screen.dart';
 import 'package:iynfluencer/widgets/app_bar/influencer_buttom_bar.dart';
 
 import '../../data/models/Jobs/job_model.dart';
@@ -107,18 +108,20 @@ class _InfluencerHomeScreenState extends State<InfluencerHomeScreen>
                                       return SizedBox(
                                           height: getVerticalSize(16));
                                     },
-                                    itemCount:controller.isJobsLoading.value? 5: controller.jobsList.length,
+                                    itemCount: controller.isJobsLoading.value
+                                        ? 5
+                                        : controller.jobsList.length,
                                     itemBuilder: (context, index) {
-                                      if(controller.isJobsLoading.value){
+                                      if (controller.isJobsLoading.value) {
                                         return InfluencerHomeItemSkeletonWidget();
-                                      }
-                                      else {
+                                      } else {
                                         Job model = controller.jobsList[index];
                                         return InfluencerHomeItemWidget(model,
-                                          onTapJobpost: () {
-                                        onTapJobpost();
-                                      });
-                                    }}))))
+                                            onTapJobpost: () {
+                                          onTapJobpost(model);
+                                        });
+                                      }
+                                    }))))
                       ]);
                 }
               }),
@@ -167,10 +170,10 @@ class _InfluencerHomeScreenState extends State<InfluencerHomeScreen>
 
   /// When the action is triggered, this function uses the `Get` package to
   /// push the named route for the jobDetailsScreen.
-  onTapJobpost() {
-    Get.toNamed(
-      AppRoutes.jobDetailsScreen,
-    );
+  onTapJobpost(model) {
+    Get.to(JobDetailsScreen(
+      selectedJob: model,
+    ));
   }
 
   openDrawer() {

@@ -14,7 +14,7 @@ class InfluencerHomeItemWidget extends StatelessWidget {
           key: key,
         );
 
-Job _job;
+  Job _job;
 
   var controller = Get.find<InfluencerHomeController>();
 
@@ -39,7 +39,7 @@ Job _job;
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-              "${_job.title}",
+                "${_job.title}",
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
                 style: AppStyle.txtSatoshiBold14Gray900ab,
@@ -162,7 +162,7 @@ Job _job;
                         bottom: 3,
                       ),
                       child: Text(
-                        "${_job.creator.first.creatorId}".tr,
+                        "${_job.user?.firstName}".tr,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: AppStyle.txtSatoshiBold14Gray900ab,

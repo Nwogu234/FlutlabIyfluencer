@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:iynfluencer/core/app_export.dart';
 import 'package:iynfluencer/data/models/Jobs/job_model.dart';
@@ -8,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../../data/apiClient/api_client.dart';
 import '../../../data/general_controllers/user_controller.dart';
+
 /// A controller class for the InfluencerHomeScreen.
 ///
 /// This class manages the state of the InfluencerHomeScreen, including the
@@ -24,10 +23,9 @@ class InfluencerHomeController extends GetxController {
   var token;
   final apiClient = ApiClient();
   Rx<bool> isLoading = false.obs;
-  var error=''.obs;
+  var error = ''.obs;
   Rx<bool> isJobsLoading = false.obs;
   List<Job> jobsList = <Job>[].obs;
-  Response response = Response();
 
   late AnimationController animationController;
 
@@ -43,6 +41,7 @@ class InfluencerHomeController extends GetxController {
     isLoading.value = true;
     error('');
     token = await storage.read(key: "token");
+    print(token);
     try {
       await user.getUser();
       if (user.userModelObj.value.firstName.isEmpty) {
@@ -61,28 +60,31 @@ class InfluencerHomeController extends GetxController {
   }
 
   //this is to get the list of jobs
-  getJobs()async{
-    try{
+  getJobs() async {
+    Response response;
+    try {
       error('');
-      isJobsLoading.value =true;
+      isJobsLoading.value = true;
       response = await apiClient.getAllJobs(1, 25, token);
-      if(response!=Response()){
+      print(response.body);
+      if (response.isOk) {
         final responseJson = response.body;
         final jobResponse = JobResponse.fromJson(responseJson);
-        jobsList = jobResponse.data.docs; // List of Influencers
+        jobsList = jobResponse.data.docs;
+        print(jobsList); // List of Influencers
         error('');
         isJobsLoading.value = false;
-      }
-      else{
+      } else {
         error('Something went wrong');
-        isJobsLoading.value =false;
+        isJobsLoading.value = false;
       }
-    }
-    catch(e){
-
+    } catch (e) {
+      print(e);
+      print(jobsList);
+      error('Something went wrong');
+      isJobsLoading.value = false;
     }
   }
-
 
   @override
   void onInit() {

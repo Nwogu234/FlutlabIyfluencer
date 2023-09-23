@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iynfluencer/data/general_controllers/user_controller.dart';
-
 import 'core/app_export.dart';
 
 void main() {

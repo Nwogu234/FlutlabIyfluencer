@@ -11,10 +11,11 @@ import 'package:iynfluencer/widgets/custom_bottom_bar.dart';
 
 class HomeCreatorContainerScreen
     extends GetWidget<HomeCreatorContainerController> {
-  HomeCreatorContainerScreen({this.initialNestedRoute = AppRoutes.homeCreatorPage,Key? key}) : super(key: key);
+  HomeCreatorContainerScreen(
+      {this.initialNestedRoute = AppRoutes.homeCreatorPage, Key? key})
+      : super(key: key);
 
   final String initialNestedRoute;
-
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +29,10 @@ class HomeCreatorContainerScreen
                     page: () => getCurrentPage(routeSetting.name!),
                     transition: Transition.noTransition)),
             bottomNavigationBar:
-            CustomBottomBar(onChanged: (BottomBarEnum type) {
+                CustomBottomBar(onChanged: (BottomBarEnum type) {
               Get.toNamed(getCurrentRoute(type), id: 1);
             })));
   }
-
 
   ///Handling route based on bottom click actions
   String getCurrentRoute(BottomBarEnum type) {
